@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Terminal Command Cheat Sheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #58a6ff;
+            margin-bottom: 0.25rem;
+        }
+
+        header h1 span {
+            color: #3fb950;
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 0.95rem;
+        }
+
+        .search-wrapper {
+            max-width: 500px;
+            margin: 1.5rem auto 2rem;
+            padding: 0 1rem;
+            position: relative;
+        }
+
+        .search-wrapper::before {
+            content: '>';
+            position: absolute;
+            left: 1.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #3fb950;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        #search {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.5rem;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #c9d1d9;
+            font-size: 1rem;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #search::placeholder {
+            color: #484f58;
+        }
+
+        #search:focus {
+            border-color: #3fb950;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #484f58;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 1rem 3rem;
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .card:hover {
+            border-color: #3fb950;
+            transform: translateY(-2px);
+        }
+
+        .card-name {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 1.25rem;
+            color: #3fb950;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            color: #8b949e;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .card-example {
+            background: #0d1117;
+            border-radius: 6px;
+            padding: 0.6rem 0.85rem;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            color: #79c0ff;
+            border: 1px solid #21262d;
+        }
+
+        .card-example .prompt {
+            color: #3fb950;
+            user-select: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem 2.5rem;
+            color: #484f58;
+            font-size: 0.85rem;
+            border-top: 1px solid #21262d;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        footer span {
+            color: #58a6ff;
+        }
+
+        @media (max-width: 680px) {
+            header h1 { font-size: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="color: #e74c3c;">Day 1 : Experiment 1</h1>
+        <h1><span>&gt;_</span> My Terminal Command Cheat Sheet</h1>
+        <p>Essential commands every developer should know</p>
+    </header>
+
+    <div class="search-wrapper">
+        <input type="text" id="search" placeholder="Search commands..." autocomplete="off">
+    </div>
+
+    <div class="no-results" id="noResults">No commands found.</div>
+    <div class="grid" id="grid"></div>
+
+    <footer>Built by <span>Ayush</span> — Day 1 of 50-Day Claude Code Mastery Journey</footer>
+
+    <script>
+        const commands = [
+            { name: "pwd", desc: "Print Working Directory — shows your current location in the file system.", example: "pwd" },
+            { name: "ls", desc: "List files and folders in the current directory.", example: "ls -la" },
+            { name: "cd", desc: "Change directory — navigate into a different folder.", example: "cd Documents/projects" },
+            { name: "mkdir", desc: "Make directory — create a new folder.", example: "mkdir my-new-project" },
+            { name: "touch", desc: "Create file — make a new empty file.", example: "touch index.html" },
+            { name: "rm", desc: "Remove file — permanently delete files. Use with caution!", example: "rm old-file.txt" },
+            { name: "cp", desc: "Copy files — duplicate a file to a new location or name.", example: "cp file.txt backup.txt" },
+            { name: "mv", desc: "Move or rename files — relocate or rename a file.", example: "mv old.txt new.txt" },
+            { name: "cat", desc: "View file contents — display the contents of a file in the terminal.", example: "cat file.txt" },
+            { name: "grep", desc: "Search in files — find lines matching a pattern inside files.", example: 'grep "search term" file.txt' },
+            { name: "nano", desc: "Edit files — open a simple text editor right in the terminal.", example: "nano file.txt" },
+            { name: "code .", desc: "Open in VS Code — launches the current folder in Visual Studio Code.", example: "code ." },
+            { name: "clear", desc: "Clear terminal — wipes the screen for a fresh start.", example: "clear" }
+        ];
+
+        const grid = document.getElementById("grid");
+        const noResults = document.getElementById("noResults");
+        const search = document.getElementById("search");
+
+        function render(filter = "") {
+            const lower = filter.toLowerCase();
+            const matched = commands.filter(c =>
+                c.name.toLowerCase().includes(lower) ||
+                c.desc.toLowerCase().includes(lower)
+            );
+
+            grid.innerHTML = matched.map(c => `
+                <div class="card">
+                    <div class="card-name">${c.name}</div>
+                    <div class="card-desc">${c.desc}</div>
+                    <div class="card-example"><span class="prompt">$ </span>${c.example}</div>
+                </div>
+            `).join("");
+
+            noResults.style.display = matched.length === 0 ? "block" : "none";
+        }
+
+        search.addEventListener("input", e => render(e.target.value));
+        render();
+    </script>
+</body>
+</html>
